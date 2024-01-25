@@ -1,33 +1,36 @@
 import 'package:flutter/material.dart';
 
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  final bool showBackButton;
 
-// class CustomAppBar extends StatelessWidget {
-//   final String title;
-//
-//   CustomAppBar({required this.title});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return AppBar(
-//       backgroundColor: Colors.black,
-//       centerTitle: true,
-//       elevation: 0.8,
-//       title: Text(
-//         title,
-//         style: TextStyle(
-//           color: Colors.white,
-//         ),
-//       ),
-//     );
-//   }
-// }
+  CustomAppBar({required this.title, this.showBackButton = true});
 
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(
+        title,
+      ),
+      centerTitle: !showBackButton,
+      leading: showBackButton
+          ? IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          : null,
+    );
+  }
 
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
 
-class FormControllers{
+class FormControllers {
   final TextEditingController aadharController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
 }
-

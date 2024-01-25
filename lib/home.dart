@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:quickrecord/user_info.dart';
+import 'package:quickrecord/view_transaction.dart';
 import 'package:quickrecord/widget/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +23,6 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initialGetSavedData();
   }
@@ -32,15 +32,19 @@ class _HomeState extends State<Home> {
   }
 
   void onSave() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const ViewTransaction())
+    );
+
     Users users = Users(
       formControllers.nameController.text,
       formControllers.amountController.text,
       formControllers.aadharController.text,
       formControllers.mobileController.text,
+      formControllers.amountController.text
     );
 
     String userdata = jsonEncode(users);
-    print(userdata);
     sharedPreferences.setString('userdata', userdata);
   }
 
@@ -58,16 +62,9 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     // Return a Scaffold widget with your desired structure
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        centerTitle: true,
-        elevation: 0.8,
-        title: Text(
-          'QuickRecords',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ), //TODO : Implement CustomAppBar class
+      appBar: CustomAppBar(
+        title: 'QuickRecords',
+        showBackButton: false,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -149,17 +146,34 @@ class _HomeState extends State<Home> {
                       child: DropdownButtonFormField(
                           value: selectBank,
                           items: [
-                            DropdownMenuItem(value: 'SBI', child: Text('State Bank of India')),
-                            DropdownMenuItem(value: 'PNB', child: Text('Punjab National Bank')),
-                            DropdownMenuItem(value: 'BOB', child: Text('Bank of Baroda')),
-                            DropdownMenuItem(value: 'UBI', child: Text('Union Bank of India')),
-                            DropdownMenuItem(value: 'BOI', child: Text('Bank of India')),
-                            DropdownMenuItem(value: 'Canara', child: Text('Canara Bank')),
-                            DropdownMenuItem(value: 'IOB', child: Text('Indian Overseas Bank')),
-                            DropdownMenuItem(value: 'UCO', child: Text('UCO Bank')),
-                            DropdownMenuItem(value: 'IDBI', child: Text('IDBI Bank')),
-                            DropdownMenuItem(value: 'Bank Of Maharashtra', child: Text('Bank Of Maharashtra')),
-                            DropdownMenuItem(value: 'Central', child: Text('Central Bank of India')),
+                            DropdownMenuItem(
+                                value: 'SBI',
+                                child: Text('State Bank of India')),
+                            DropdownMenuItem(
+                                value: 'PNB',
+                                child: Text('Punjab National Bank')),
+                            DropdownMenuItem(
+                                value: 'BOB', child: Text('Bank of Baroda')),
+                            DropdownMenuItem(
+                                value: 'UBI',
+                                child: Text('Union Bank of India')),
+                            DropdownMenuItem(
+                                value: 'BOI', child: Text('Bank of India')),
+                            DropdownMenuItem(
+                                value: 'Canara', child: Text('Canara Bank')),
+                            DropdownMenuItem(
+                                value: 'IOB',
+                                child: Text('Indian Overseas Bank')),
+                            DropdownMenuItem(
+                                value: 'UCO', child: Text('UCO Bank')),
+                            DropdownMenuItem(
+                                value: 'IDBI', child: Text('IDBI Bank')),
+                            DropdownMenuItem(
+                                value: 'Bank Of Maharashtra',
+                                child: Text('Bank Of Maharashtra')),
+                            DropdownMenuItem(
+                                value: 'Central',
+                                child: Text('Central Bank of India')),
                           ],
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -211,7 +225,7 @@ class _HomeState extends State<Home> {
                             onPressed: () {
                               if (_formKey.currentState!.validate() &&
                                   _formKey.currentState != null) {
-                                onSave;
+                                onSave();
                               }
                             },
                             child: Text('Save'),
