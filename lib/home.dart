@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:quickrecord/user_info.dart';
 import 'package:quickrecord/view_transaction.dart';
@@ -20,6 +19,7 @@ class _HomeState extends State<Home> {
   String? selectBank;
 
   late SharedPreferences sharedPreferences;
+  List<Users> usersList = [];
 
   @override
   void initState() {
@@ -29,23 +29,34 @@ class _HomeState extends State<Home> {
 
   void initialGetSavedData() async {
     sharedPreferences = await SharedPreferences.getInstance();
+    String? usersListString = sharedPreferences.getString('usersList');
+    if (usersListString != null) {
+      List<Map<String, dynamic>> usersListMap =
+      List<Map<String, dynamic>>.from(jsonDecode(usersListString));
+      usersList =
+          usersListMap.map((userMap) => Users.fromJson(userMap)).toList();
+      setState(() {});
+    }
+  }
+
+  void onPreview() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const ViewTransaction()));
   }
 
   void onSave() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const ViewTransaction())
-    );
+    if (_formKey.currentState!.validate() && _formKey.currentState != null) {
+      Users user = Users(
+        formControllers.nameController.text,
+        selectBank ?? '',
+        formControllers.aadharController.text,
+        formControllers.mobileController.text,
+        formControllers.amountController.text,
+      );
 
-    Users users = Users(
-      formControllers.nameController.text,
-      formControllers.amountController.text,
-      formControllers.aadharController.text,
-      formControllers.mobileController.text,
-      formControllers.amountController.text
-    );
-
-    String userdata = jsonEncode(users);
-    sharedPreferences.setString('userdata', userdata);
+      usersList.add(user);
+      sharedPreferences.setString('usersList', jsonEncode(usersList));
+    }
   }
 
   void onReset() {
@@ -222,6 +233,7 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FloatingActionButton(
+                            heroTag:'btn1',
                             onPressed: () {
                               if (_formKey.currentState!.validate() &&
                                   _formKey.currentState != null) {
@@ -232,8 +244,15 @@ class _HomeState extends State<Home> {
                           ),
                           SizedBox(width: 16),
                           FloatingActionButton(
+                            heroTag: 'btn2',
                             onPressed: onReset,
                             child: Text('Reset'),
+                          ),
+                          SizedBox(width: 16,),
+                          FloatingActionButton(
+                            heroTag: 'btn3',
+                            onPressed: onPreview,
+                            child: Text('Preview'),
                           ),
                         ],
                       ),
