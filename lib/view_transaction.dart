@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:quickrecord/user_info.dart';
 import 'package:quickrecord/widget/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class ViewTransaction extends StatefulWidget {
   const ViewTransaction({Key? key}) : super(key: key);
@@ -13,23 +15,39 @@ class ViewTransaction extends StatefulWidget {
 
 class _ViewTransactionState extends State<ViewTransaction> {
   late SharedPreferences sharedPreferences;
-  List<Map<String, dynamic>> transactionHistory = [];
+  var usersDataList = [];
 
   @override
   void initState() {
     super.initState();
-    loadData();
+      loadData();
   }
 
   void loadData() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    String? transactionHistoryString =
-    sharedPreferences.getString('transactionHistory');
+    String? usersListString = sharedPreferences.getString('usersList');
 
-    if (transactionHistoryString != null) {
-      transactionHistory =
-      List<Map<String, dynamic>>.from(jsonDecode(transactionHistoryString));
-      setState(() {});
+    if (usersListString != null) {
+      try {
+        var decodedList = jsonDecode(usersListString);
+        if (decodedList is List) {
+          for (var userMap in decodedList) {
+            Users user = Users.fromJson(userMap);
+
+            // Check if the user is not already present in the list
+            if (!usersDataList.contains(user)) {
+              usersDataList.add(user);
+            }
+          }
+          setState(() {});
+        } else {
+          print('Error decoding usersList: Not a List');
+        }
+      } catch (e) {
+        print('Error decoding usersList: $e');
+      }
+    } else {
+      print('usersListString is null');
     }
   }
 
@@ -53,50 +71,70 @@ class _ViewTransactionState extends State<ViewTransaction> {
                   decoration: BoxDecoration(color: Colors.blueAccent),
                   children: [
                     TableCell(
-                        child: Padding(
-                            padding: EdgeInsets.all(8), child: Text('Aadhar'))),
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text('Aadhar'),
+                      ),
+                    ),
                     TableCell(
-                        child: Padding(
-                            padding: EdgeInsets.all(8), child: Text('Name'))),
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text('Name'),
+                      ),
+                    ),
                     TableCell(
-                        child: Padding(
-                            padding: EdgeInsets.all(8), child: Text('Mobile'))),
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text('Mobile'),
+                      ),
+                    ),
                     TableCell(
-                        child: Padding(
-                            padding: EdgeInsets.all(8), child: Text('Bank'))),
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text('Bank'),
+                      ),
+                    ),
                     TableCell(
-                        child: Padding(
-                            padding: EdgeInsets.all(8), child: Text('Amount'))),
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text('Amount'),
+                      ),
+                    ),
                   ],
                 ),
-                for (Map<String, dynamic> transaction in transactionHistory)
+                for (Users user in usersDataList)
                   TableRow(
                     children: [
                       TableCell(
-                          child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(transaction['aadhar'] ?? 'N/A'),
-                          )),
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(user.aadhar ?? 'N/A'),
+                        ),
+                      ),
                       TableCell(
-                          child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(transaction['name'] ?? 'N/A'),
-                          )),
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(user.name ?? 'N/A'),
+                        ),
+                      ),
                       TableCell(
-                          child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(transaction['mobile'] ?? 'N/A'),
-                          )),
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(user.mobile ?? 'N/A'),
+                        ),
+                      ),
                       TableCell(
-                          child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(transaction['bank'] ?? 'N/A'),
-                          )),
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(user.bankName ?? 'N/A'),
+                        ),
+                      ),
                       TableCell(
-                          child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(transaction['amount'] ?? 'N/A'),
-                          )),
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(user.amount ?? 'N/A'),
+                        ),
+                      ),
                     ],
                   ),
               ],

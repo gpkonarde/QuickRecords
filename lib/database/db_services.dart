@@ -11,7 +11,9 @@ class DatabaseHelper {
   late Database _database;
 
   Future<void> init() async {
+    print('Initializing db');
     await initDatabase();
+    print('Sync data from sharedPref');
     await syncDataFromSharedPreferences();
   }
 
