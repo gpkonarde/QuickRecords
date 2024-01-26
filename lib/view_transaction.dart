@@ -142,10 +142,15 @@ class _ViewTransactionState extends State<ViewTransaction> {
                         ),
                       ),
                       TableCell(
-                        child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Text(user.amount ?? 'N/A'),
-                        ),
+                      child: Container(
+                          color: user.type == 'Withdraw' ?Colors.red : (user.type == 'Credit' ? Colors.green: null),
+                          child: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(user.amount ?? 'N/A'),
+                          )
+                      ),
+
+
                       ),
                     ],
                   ),
