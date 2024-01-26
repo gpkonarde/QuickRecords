@@ -97,6 +97,12 @@ class _ViewTransactionState extends State<ViewTransaction> {
                     TableCell(
                       child: Padding(
                         padding: EdgeInsets.all(8),
+                        child: Text('Transaction Type'),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
                         child: Text('Amount'),
                       ),
                     ),
@@ -127,6 +133,12 @@ class _ViewTransactionState extends State<ViewTransaction> {
                         child: Padding(
                           padding: EdgeInsets.all(8),
                           child: Text(user.bankName ?? 'N/A'),
+                        ),
+                      ),
+                      TableCell(
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(user.type ?? 'N/A'),
                         ),
                       ),
                       TableCell(

@@ -17,6 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final FormControllers formControllers = FormControllers();
   String? selectBank;
+  String? selectType;
 
   late SharedPreferences sharedPreferences;
   List<Users> usersList = [];
@@ -48,10 +49,11 @@ class _HomeState extends State<Home> {
   void onSave() {
     if (_formKey.currentState!.validate() && _formKey.currentState != null) {
       Users user = Users(
-        formControllers.nameController.text,
-        selectBank ?? '',
         formControllers.aadharController.text,
+        formControllers.nameController.text,
         formControllers.mobileController.text,
+        selectBank ?? '',
+        selectType ?? '',
         formControllers.amountController.text,
       );
 
@@ -63,6 +65,7 @@ class _HomeState extends State<Home> {
   void onReset() {
     setState(() {
       selectBank = null;
+      selectType = null;
     });
     formControllers.aadharController.clear();
     formControllers.nameController.clear();
@@ -119,7 +122,7 @@ class _HomeState extends State<Home> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
                             ),
-                            labelText: 'Name'),
+                            labelText: 'FullName'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Enter something';
@@ -150,9 +153,6 @@ class _HomeState extends State<Home> {
                         },
                       ),
                     ),
-
-                    // DropDown to choose bank
-
                     Padding(
                       padding: EdgeInsets.all(8),
                       child: DropdownButtonFormField(
@@ -202,6 +202,36 @@ class _HomeState extends State<Home> {
                           onChanged: (newValue) {
                             setState(() {
                               selectBank = newValue as String?;
+                            });
+                          }),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: DropdownButtonFormField(
+                          value: selectType,
+                          items: [
+                            DropdownMenuItem(
+                                value: 'Withdraw',
+                                child: Text('Withdrwa / Debit')),
+                            DropdownMenuItem(
+                                value: 'Credit',
+                                child: Text('Credit')),
+                            ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Choose a Transaction';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                              labelText: '--Select Transaction--'),
+                          onChanged: (newwValue) {
+                            setState(() {
+                              selectType = newwValue as String?;
                             });
                           }),
                     ),
