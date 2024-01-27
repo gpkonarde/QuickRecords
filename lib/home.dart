@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:quickrecord/Views/list_transaction_view.dart';
+import 'package:quickrecord/database/data_functions.dart';
 import 'package:quickrecord/user_info.dart';
 import 'package:quickrecord/view_transaction.dart';
 import 'package:quickrecord/widget/widgets.dart';
@@ -43,10 +45,10 @@ class _HomeState extends State<Home> {
 
   void onPreview() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const ViewTransaction()));
+        context, MaterialPageRoute(builder: (context) => TransactionListView()));
   }
 
-  void onSave() {
+  Future<void> onSave() async {
     if (_formKey.currentState!.validate() && _formKey.currentState != null) {
       Users user = Users(
         formControllers.aadharController.text,
@@ -58,7 +60,7 @@ class _HomeState extends State<Home> {
       );
 
       usersList.add(user);
-      sharedPreferences.setString('usersList', jsonEncode(usersList));
+      await UserDataStorage.saveUserData(usersList);
     }
   }
 

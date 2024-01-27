@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:quickrecord/Views/list_transaction_view.dart';
+import 'package:quickrecord/database/data_functions.dart';
 import 'package:quickrecord/user_info.dart';
 import 'package:quickrecord/widget/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class ViewTransaction extends StatefulWidget {
   const ViewTransaction({Key? key}) : super(key: key);
@@ -20,35 +21,13 @@ class _ViewTransactionState extends State<ViewTransaction> {
   @override
   void initState() {
     super.initState();
-      loadData();
+    loadData();
   }
 
   void loadData() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    String? usersListString = sharedPreferences.getString('usersList');
-
-    if (usersListString != null) {
-      try {
-        var decodedList = jsonDecode(usersListString);
-        if (decodedList is List) {
-          for (var userMap in decodedList) {
-            Users user = Users.fromJson(userMap);
-
-            // Check if the user is not already present in the list
-            if (!usersDataList.contains(user)) {
-              usersDataList.add(user);
-            }
-          }
-          setState(() {});
-        } else {
-          print('Error decoding usersList: Not a List');
-        }
-      } catch (e) {
-        print('Error decoding usersList: $e');
-      }
-    } else {
-      print('usersListString is null');
-    }
+    usersDataList = await UserDataStorage.loadUserData();
+    setState(() {});
   }
 
   @override
@@ -142,15 +121,14 @@ class _ViewTransactionState extends State<ViewTransaction> {
                         ),
                       ),
                       TableCell(
-                      child: Container(
-                          color: user.type == 'Withdraw' ?Colors.red : (user.type == 'Credit' ? Colors.green: null),
-                          child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(user.amount ?? 'N/A'),
-                          )
-                      ),
-
-
+                        child: Container(
+                            color: user.type == 'Withdraw'
+                                ? Colors.red
+                                : (user.type == 'Credit' ? Colors.green : null),
+                            child: Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Text(user.amount ?? 'N/A'),
+                            )),
                       ),
                     ],
                   ),
