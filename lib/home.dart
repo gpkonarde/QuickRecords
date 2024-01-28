@@ -39,7 +39,6 @@ class _HomeState extends State<Home> {
       usersList =
           usersListMap.map((userMap) => Users.fromJson(userMap)).toList();
       setState(() {});
-
     }
   }
 
@@ -59,8 +58,19 @@ class _HomeState extends State<Home> {
         formControllers.amountController.text,
       );
 
-      usersList.add(user);
-      await UserDataStorage.saveUserData(usersList);
+      // Check if the user already exists in the list
+      bool userExists = usersList.any((existingUser) =>
+      existingUser.aadhar == user.aadhar &&
+          existingUser.name == user.name &&
+          existingUser.mobile == user.mobile &&
+          existingUser.bankName == user.bankName &&
+          existingUser.type == user.type &&
+          existingUser.amount == user.amount);
+
+      if (!userExists) {
+        usersList.add(user);
+        await UserDataStorage.saveUserData(usersList);
+      }
     }
   }
 

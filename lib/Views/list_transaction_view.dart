@@ -5,13 +5,11 @@ import 'package:quickrecord/view_transaction.dart';
 import 'package:quickrecord/widget/widgets.dart';
 
 class TransactionListView extends StatefulWidget {
-
   @override
   _TransactionListViewState createState() => _TransactionListViewState();
 }
 
 class _TransactionListViewState extends State<TransactionListView> {
-
   List<Users> usersList = [];
 
   @override
@@ -33,6 +31,8 @@ class _TransactionListViewState extends State<TransactionListView> {
 
   @override
   Widget build(BuildContext context) {
+    Set<String> uniqueAadharNumbers = Set();
+
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Transaction List',
@@ -41,26 +41,36 @@ class _TransactionListViewState extends State<TransactionListView> {
         itemCount: usersList.length,
         itemBuilder: (context, index) {
           Users user = usersList[index];
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 10,bottom: 8,left: 8,right: 8),
-                child: ListTile(
-                  title: Text(user.name),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  subtitle: Text('ID: ${user.aadhar}'),
-                  trailing: Text('Amount: ${user.amount}'),
-                  tileColor: Color(0xFFE0E0E0),
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ViewTransaction()));
-                  },
+
+          if (!uniqueAadharNumbers.contains(user.aadhar)) {
+            uniqueAadharNumbers.add(user.aadhar);
+
+            return Padding(
+              padding: EdgeInsets.only(top: 10, bottom: 8, left: 8, right: 8),
+              child: ListTile(
+                title: Text(user.name),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ), // Add a SizedBox for spacing
-            ],
-          );
+                subtitle: Text('ID: ${user.aadhar}'),
+                trailing: Text('${user.type}: ${user.amount}'),
+                tileColor: Color(0xFFE0E0E0),
+                onTap: () async {
+                  String tappedAadhar = user.aadhar ?? '';
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ViewTransaction(
+                        aadharFilter: tappedAadhar,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          } else {
+            return Container();
+          }
         },
       ),
     );

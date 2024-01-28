@@ -8,7 +8,8 @@ import 'package:quickrecord/widget/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ViewTransaction extends StatefulWidget {
-  const ViewTransaction({Key? key}) : super(key: key);
+  final String? aadharFilter;
+  const ViewTransaction({Key? key, this.aadharFilter}) : super(key: key);
 
   @override
   _ViewTransactionState createState() => _ViewTransactionState();
@@ -27,7 +28,16 @@ class _ViewTransactionState extends State<ViewTransaction> {
   void loadData() async {
     sharedPreferences = await SharedPreferences.getInstance();
     usersDataList = await UserDataStorage.loadUserData();
+
+    if (widget.aadharFilter != null && widget.aadharFilter!.isNotEmpty) {
+      usersDataList = usersDataList
+          .where((user) => user.aadhar == widget.aadharFilter)
+          .toList();
+    }
+
+
     setState(() {});
+
   }
 
   @override
