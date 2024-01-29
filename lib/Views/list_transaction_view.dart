@@ -11,6 +11,7 @@ class TransactionListView extends StatefulWidget {
 
 class _TransactionListViewState extends State<TransactionListView> {
   List<Users> usersList = [];
+  Set<String> uniqueAadharNumbers = Set();
 
   @override
   void initState() {
@@ -23,16 +24,23 @@ class _TransactionListViewState extends State<TransactionListView> {
       List<Users> loadedUserData = await UserDataStorage.loadUserData();
       setState(() {
         usersList = loadedUserData;
+        updateUniqueAadharNumbers();
       });
     } catch (e) {
       print('Error loading user data: $e');
     }
   }
 
+  // Update the uniqueAadharNumbers set with all Aadhar numbers in usersList
+  void updateUniqueAadharNumbers() {
+    uniqueAadharNumbers.clear();
+    for (Users user in usersList) {
+      uniqueAadharNumbers.add(user.aadhar);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Set<String> uniqueAadharNumbers = Set();
-
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Transaction List',
@@ -42,35 +50,29 @@ class _TransactionListViewState extends State<TransactionListView> {
         itemBuilder: (context, index) {
           Users user = usersList[index];
 
-          if (!uniqueAadharNumbers.contains(user.aadhar)) {
-            uniqueAadharNumbers.add(user.aadhar);
-
-            return Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 8, left: 8, right: 8),
-              child: ListTile(
-                title: Text(user.name),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                subtitle: Text('ID: ${user.aadhar}'),
-                trailing: Text('${user.type}: ${user.amount}'),
-                tileColor: Color(0xFFE0E0E0),
-                onTap: () async {
-                  String tappedAadhar = user.aadhar ?? '';
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ViewTransaction(
-                        aadharFilter: tappedAadhar,
-                      ),
-                    ),
-                  );
-                },
+          return Padding(
+            padding: EdgeInsets.only(top: 10, bottom: 8, left: 8, right: 8),
+            child: ListTile(
+              title: Text(user.name),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
-            );
-          } else {
-            return Container();
-          }
+              subtitle: Text('ID: ${user.aadhar}'),
+              trailing: Text('${user.type}: ${user.amount}'),
+              tileColor: Color(0xFFE0E0E0),
+              onTap: () async {
+                String tappedAadhar = user.aadhar ?? '';
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ViewTransaction(
+                      aadharFilter: tappedAadhar,
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
         },
       ),
     );
