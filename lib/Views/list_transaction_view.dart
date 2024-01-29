@@ -46,9 +46,10 @@ class _TransactionListViewState extends State<TransactionListView> {
         title: 'Transaction List',
       ),
       body: ListView.builder(
-        itemCount: usersList.length,
+        itemCount: uniqueAadharNumbers.length,
         itemBuilder: (context, index) {
-          Users user = usersList[index];
+          String aadhar = uniqueAadharNumbers.elementAt(index);
+          Users user = usersList.firstWhere((u) => u.aadhar == aadhar);
 
           return Padding(
             padding: EdgeInsets.only(top: 10, bottom: 8, left: 8, right: 8),
@@ -57,11 +58,11 @@ class _TransactionListViewState extends State<TransactionListView> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              subtitle: Text('ID: ${user.aadhar}'),
+              subtitle: Text('ID: xxxxxxxx$aadhar'),
               trailing: Text('${user.type}: ${user.amount}'),
               tileColor: Color(0xFFE0E0E0),
               onTap: () async {
-                String tappedAadhar = user.aadhar ?? '';
+                String tappedAadhar = aadhar ?? '';
                 Navigator.push(
                   context,
                   MaterialPageRoute(

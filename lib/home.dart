@@ -118,7 +118,7 @@ class _HomeState extends State<Home> {
                             return 'Enter Something';
                           }
                           if (int.tryParse(value) == null ||
-                              value.length != 12) {
+                              value.length != 4) {
                             return 'Enter Valid Aadhar';
                           }
                           return null;
