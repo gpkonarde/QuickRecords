@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:quickrecord/Views/list_transaction_view.dart';
+import 'package:quickrecord/controller/data_controller.dart';
 import 'package:quickrecord/database/data_functions.dart';
 import 'package:quickrecord/user_info.dart';
 import 'package:quickrecord/view_transaction.dart';
@@ -58,7 +59,6 @@ class _HomeState extends State<Home> {
         formControllers.amountController.text,
       );
 
-      // Check if the user already exists in the list
       bool userExists = usersList.any((existingUser) =>
       existingUser.aadhar == user.aadhar &&
           existingUser.name == user.name &&
@@ -70,9 +70,20 @@ class _HomeState extends State<Home> {
       if (!userExists) {
         usersList.add(user);
         await UserDataStorage.saveUserData(usersList);
+
+
+        DataController dataController = DataController();
+        dataController.submitForm(user, (status) {
+          if (status == DataController.STATUS_SUCCESS) {
+            print('Data saved to Google Sheet');
+          } else {
+            print('Failed to save data to Google Sheet');
+          }
+        });
       }
     }
   }
+
 
   void onReset() {
     setState(() {
