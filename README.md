@@ -1,5 +1,3 @@
-_Created with [AIPRM Prompt "Readme Generator | Markdown Format | GitHub."](https://www.aiprm.com/prompts/softwareengineering/text-editor/1794387468406222848/)_
-
 # QuickRecords Application README
 
 The QuickRecords application, developed using Flutter, streamlines transaction recording for users, providing a convenient way to manage and track their financial activities through Google Sheets integration.
