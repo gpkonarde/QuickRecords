@@ -1,16 +1,22 @@
-# quickrecord
+# QuickRecords Application README
 
-A new Flutter project.
+The QuickRecords application, developed using Flutter, streamlines transaction recording for users, providing a convenient way to manage and track their financial activities through Google Sheets integration.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- **Efficient Transaction Recording:** Users can easily input and manage transactions with a user-friendly interface.
+- **Google Sheets Integration:** Seamless transfer of transactions to Google Sheets for comprehensive tracking and analysis.
+- **Shared Preferences Storage:** Transactions are initially stored in local memory using shared preferences, eliminating the need for a complex database.
+- **Map Format Optimization:** Utilizing a map format within shared preferences enhances data handling efficiency, ensuring seamless retrieval and storage of information.
+- **Reduced Time Complexity:** The strategic approach to data handling significantly reduces the overall time complexity of the application.
 
-A few resources to get you started if this is your first Flutter project:
+## Usage
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. Install the QuickRecords application on your Flutter-compatible device.
+2. Input transactions through the intuitive user interface.
+3. Enjoy the simplicity of local storage using shared preferences.
+4. Seamlessly transfer and organize transactions on Google Sheets based on date and time.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Contributing
+
+Contributions are welcome! If you have ideas for improvements or new features, please open an issue or submit a pull request.
