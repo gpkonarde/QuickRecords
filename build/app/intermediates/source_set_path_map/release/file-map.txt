@@ -1,0 +1,14 @@
+com.example.quickrecord.app-jetified-annotation-experimental-1.1.0-0 C:\Users\gajan\.gradle\caches\transforms-3\02315cc9f75263553d2042718fc375ee\transformed\jetified-annotation-experimental-1.1.0\res
+com.example.quickrecord.app-jetified-window-1.0.0-beta04-1 C:\Users\gajan\.gradle\caches\transforms-3\076eb9235982ee06112d76594ea8585f\transformed\jetified-window-1.0.0-beta04\res
+com.example.quickrecord.app-jetified-window-java-1.0.0-beta04-2 C:\Users\gajan\.gradle\caches\transforms-3\99750bb863b6fe460a7b5da8686e778d\transformed\jetified-window-java-1.0.0-beta04\res
+com.example.quickrecord.app-core-1.6.0-3 C:\Users\gajan\.gradle\caches\transforms-3\d08c73bfb05384f2e52578171dbd141e\transformed\core-1.6.0\res
+com.example.quickrecord.app-main-4 C:\src\project\QuickRecord\android\app\src\main\res
+com.example.quickrecord.app-release-5 C:\src\project\QuickRecord\android\app\src\release\res
+com.example.quickrecord.app-pngs-6 C:\src\project\QuickRecord\build\app\generated\res\pngs\release
+com.example.quickrecord.app-resValues-7 C:\src\project\QuickRecord\build\app\generated\res\resValues\release
+com.example.quickrecord.app-rs-8 C:\src\project\QuickRecord\build\app\generated\res\rs\release
+com.example.quickrecord.app-mergeReleaseResources-9 C:\src\project\QuickRecord\build\app\intermediates\incremental\release\mergeReleaseResources\merged.dir
+com.example.quickrecord.app-mergeReleaseResources-10 C:\src\project\QuickRecord\build\app\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+com.example.quickrecord.app-merged_res-11 C:\src\project\QuickRecord\build\app\intermediates\merged_res\release
+com.example.quickrecord.app-packaged_res-12 C:\src\project\QuickRecord\build\shared_preferences_android\intermediates\packaged_res\release
+com.example.quickrecord.app-packaged_res-13 C:\src\project\QuickRecord\build\sqflite\intermediates\packaged_res\release

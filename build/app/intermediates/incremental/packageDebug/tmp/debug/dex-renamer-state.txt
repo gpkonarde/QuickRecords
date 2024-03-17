@@ -1,0 +1,4 @@
+#Mon Feb 05 10:37:50 IST 2024
+base.0=C\:\\src\\project\\QuickRecord\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
